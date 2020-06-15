@@ -47,7 +47,7 @@ public class DetailActivity extends AppCompatActivity {
     public void clicBouton(View view)   {
         long nbrCar = AppDatabaseHelper.getDatabase(this).carDAO().countCarsParName(retourWS.nom);
         if (nbrCar == 0){
-            CarDTO carDTO = new CarDTO(retourWS.nom, retourWS.image, retourWS.prixjournalierbase, retourWS.categorieco2);
+            CarDTO carDTO = new CarDTO(retourWS.nom, retourWS.image, retourWS.prixjournalierbase, retourWS.categorieco2, retourWS.disponible, retourWS.promotion, retourWS.agemin);
             AppDatabaseHelper.getDatabase(this).carDAO().insert(carDTO);
             Toast.makeText(view.getContext(),"Véhicule ajouté à vos favoris", Toast.LENGTH_SHORT).show();
         }else{

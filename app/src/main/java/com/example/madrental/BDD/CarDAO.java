@@ -10,10 +10,10 @@ import java.util.List;
 
 @Dao
 public abstract class CarDAO  {
-    @Query("SELECT * FROM cars")
+    @Query("SELECT * FROM madCar")
     public abstract List<CarDTO> getListeCars();
 
-    @Query("SELECT COUNT(*) FROM cars WHERE nom = :name")
+    @Query("SELECT COUNT(*) FROM madCar WHERE nom = :name")
     public abstract long countCarsParName(String name);
 
     @Insert

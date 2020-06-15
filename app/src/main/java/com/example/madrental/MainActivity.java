@@ -26,7 +26,9 @@ import com.loopj.android.http.RequestParams;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -36,15 +38,13 @@ public class MainActivity extends AppCompatActivity {
     CarAdapter carAdapter = null;
     private RecyclerView recyclerView = null;
     private Switch mySwitch;
+    private List<RetourWS> favorisCarsListe = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         frameLayoutConteneurDetail = findViewById(R.id.conteneur_detail);
-        mySwitch  = (Switch)findViewById(R.id.favoris_switch);
-        if (mySwitch != null){
-        }
 
         recyclerView = findViewById(R.id.liste_cars);
 
@@ -70,6 +70,50 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             }
         });
+
+        mySwitch  = (Switch)findViewById(R.id.favoris_switch);
+        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    List<CarDTO> listeCars = AppDatabaseHelper.getDatabase(buttonView.getContext()).carDAO().getListeCars();
+                    favorisCarsListe = new ArrayList<RetourWS>();
+                    for (int i = 0; i < listeCars.size(); i++){
+                        for (CarDTO car : listeCars){
+                            RetourWS newCar = new RetourWS(car.nom, car.image, car.prixjournalierbase, car.categorieco2, car.disponible, car.promotion, car.agemin);
+                            Boolean inFavorite;
+                            if (favorisCarsListe != null){
+                                inFavorite = favorisCarsListe.contains(newCar);
+                                Log.i("bool",""+inFavorite );
+                                if (inFavorite == false){
+                                    favorisCarsListe.add(newCar);
+                                }
+                            }else{
+                                favorisCarsListe.add(newCar);
+                            }
+
+                        }
+                    }
+                    updateRecyclerView(favorisCarsListe);
+                } else {
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    client.get("http://s519716619.onlinehome.fr/exchange/madrental/get-vehicules.php", new AsyncHttpResponseHandler() {
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                            String retour = new String(response);
+                            Gson gson = new Gson();
+                            retourWSs = gson.fromJson(retour, new TypeToken<List<RetourWS>>(){}.getType());
+                            updateRecyclerView(retourWSs);
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        }
+                    });
+                }
+            }
+        });
+
 
 
 

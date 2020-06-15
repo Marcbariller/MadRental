@@ -2,14 +2,17 @@ package com.example.madrental.BDD;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Room;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 public class AppDatabaseHelper {
     private static AppDatabaseHelper databaseHelper = null;
     public AppDataBase database;
 
     private AppDatabaseHelper(Context context) {
-        database = Room.databaseBuilder(context, AppDataBase.class, "cars").allowMainThreadQueries().build();
+        database = Room.databaseBuilder(context, AppDataBase.class, "madCar").allowMainThreadQueries().build();
     }
 
     // Getter instance :
@@ -18,4 +21,5 @@ public class AppDatabaseHelper {
             databaseHelper = new AppDatabaseHelper(context.getApplicationContext());
         }        return databaseHelper.database;
     }
+
 }
