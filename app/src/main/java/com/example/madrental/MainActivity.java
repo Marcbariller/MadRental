@@ -151,18 +151,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateRecyclerView(List<RetourWS> listeCars){
+        List<RetourWS> retourWSList = new ArrayList<RetourWS>();
+        carAdapter = new CarAdapter(this, retourWSList);
+        recyclerView.setAdapter(carAdapter);
+        carAdapter.notifyDataSetChanged();
+
         carAdapter = new CarAdapter(this, listeCars);
         recyclerView.setAdapter(carAdapter);
-    }
-
-    public void onCheckedChanged(Switch mySwitch, boolean isChecked) {
-        Toast.makeText(this, "The Switch is " + (isChecked ? "on" : "off"),
-                Toast.LENGTH_SHORT).show();
-        if(isChecked) {
-            //do stuff when Switch is ON
-        } else {
-            //do stuff when Switch if OFF
-        }
+        carAdapter.notifyDataSetChanged();
     }
 
 

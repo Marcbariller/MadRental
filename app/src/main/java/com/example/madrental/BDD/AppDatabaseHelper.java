@@ -12,7 +12,7 @@ public class AppDatabaseHelper {
     public AppDataBase database;
 
     private AppDatabaseHelper(Context context) {
-        database = Room.databaseBuilder(context, AppDataBase.class, "madCar").allowMainThreadQueries().build();
+        database = Room.databaseBuilder(context, AppDataBase.class, "rentalCar").allowMainThreadQueries().build();
     }
 
     // Getter instance :

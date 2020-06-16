@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 
 import java.net.URI;
 
-@Entity(tableName = "madCar")
+@Entity(tableName = "rentalCar")
 public class CarDTO {
     @PrimaryKey(autoGenerate = true)
     public long carId = 0;

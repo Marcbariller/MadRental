@@ -28,20 +28,4 @@ public class RetourWS {
     public RetourWS(){
 
     }
-
-    public String toString(){
-        String retour;
-        String promotionText = "";
-        String Newligne =System.getProperty("line.separator");
-        if (promotion > 0){
-            promotionText =  Newligne+"Actuellement ce véhicule est en promotion, économisez "+promotion+"€ dès maintenant!";
-        }
-        if (disponible == 1){
-            retour = nom+ " est disponible. Si vous avez au moins "+agemin+" ans et que vous pouvez payer "+prixjournalierbase+"€ par jour, alors vous serez accueilli correctement."+promotionText;
-        }else{
-            retour = "Désolé cette voiture n'est plus disponible actuellement. Retentez votre chance prochainement.";
-        }
-
-        return retour;
-    }
 }

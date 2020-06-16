@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1444274c64a7ff263d3d362834842e35",
+    "identityHash": "d2a425c7d496d5522637fcfdc4bfaff9",
     "entities": [
       {
-        "tableName": "madCar",
+        "tableName": "rentalCar",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`carId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nom` TEXT, `image` TEXT, `prixjournalierbase` INTEGER NOT NULL, `categorieco2` TEXT, `disponible` INTEGER NOT NULL, `promotion` INTEGER NOT NULL, `agemin` INTEGER NOT NULL)",
         "fields": [
           {
@@ -70,7 +70,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1444274c64a7ff263d3d362834842e35')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd2a425c7d496d5522637fcfdc4bfaff9')"
     ]
   }
 }
