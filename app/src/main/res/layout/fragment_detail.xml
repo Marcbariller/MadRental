@@ -12,7 +12,7 @@
 <ImageView
     android:id="@+id/image"
     android:layout_width="match_parent"
-    android:layout_height="250dp">
+    android:layout_height="202dp">
 </ImageView>
 <LinearLayout
     android:layout_width="match_parent"
@@ -23,9 +23,10 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="Nom"
+        android:textStyle="bold"
         android:textSize="14sp"
         android:layout_marginLeft="15dp"
-        android:padding="20dp"/>
+        android:padding="16dp"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -44,15 +45,17 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#cecece"
     android:orientation="horizontal">
     <TextView
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="Location"
+        android:textStyle="bold"
         android:textSize="14dp"
         android:layout_marginLeft="15dp"
-        android:padding="20dp"/>
+        android:padding="16dp"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -76,8 +79,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="CatégorieCO2"
+        android:textStyle="bold"
         android:textSize="14dp"
-        android:padding="20dp"
+        android:padding="16dp"
         android:layout_marginLeft="15dp" />
     <TextView
         android:layout_width="0dp"
@@ -86,7 +90,7 @@
         android:textSize="14sp"
         android:id="@+id/categorie"
         android:background="#00000000"
-        android:padding="20dp"/>
+        android:padding="16dp"/>
 </LinearLayout>
 <View
     android:layout_width="match_parent"
@@ -94,6 +98,7 @@
     android:background="#ACACAC"/>
 <LinearLayout
     android:layout_width="match_parent"
+    android:background="#cecece"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
     <TextView
@@ -101,9 +106,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Disponibilité"
+        android:textStyle="bold"
         android:textSize="14dp"
         android:layout_marginLeft="15dp"
-        android:padding="20dp"/>
+        android:padding="16dp"/>
     <TextView
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -111,7 +117,7 @@
         android:textSize="14sp"
         android:id="@+id/disponibilite"
         android:background="#00000000"
-        android:padding="20dp"/>
+        android:padding="16dp"/>
 </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -126,6 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Promotion"
+            android:textStyle="bold"
             android:textSize="14dp"
             android:layout_marginLeft="15dp"
             android:padding="20dp"/>
@@ -145,12 +152,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#cecece"
         android:orientation="horizontal">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Age minimum"
+            android:textStyle="bold"
             android:textSize="14dp"
             android:layout_marginLeft="15dp"
             android:padding="20dp"/>
@@ -167,6 +176,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/favoris"
+        android:background="#007600"
+        android:textColor="#ffffff"
         android:onClick="clicBouton"
         android:text="Ajouter aux favoris"/>
 

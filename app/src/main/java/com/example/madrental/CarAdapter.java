@@ -78,6 +78,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         return listeCars.size();
     }
 
+    // récupération de la voiture correspondant à une position
     public RetourWS getItemParPosition(int position){
         return listeCars.get(position);
     }

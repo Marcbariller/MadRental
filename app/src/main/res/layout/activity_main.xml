@@ -18,14 +18,16 @@
 
     <Switch
         android:id="@+id/favoris_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:background="#808080"
+        android:textColor="#ffffff"
         android:text="Favoris"
         app:layout_constraintTop_toBottomOf="@id/liste_cars"
         app:layout_constraintBottom_toBottomOf="parent
 "       app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         />
-
 
   </androidx.constraintlayout.widget.ConstraintLayout>

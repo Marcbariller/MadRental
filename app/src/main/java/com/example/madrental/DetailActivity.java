@@ -30,6 +30,8 @@ public class DetailActivity extends AppCompatActivity {
         DetailFragment detailFragment = new DetailFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.main, detailFragment).commit();
 
+
+        // envoi des détails de la voiture au fragment.
         Bundle bundle = new Bundle();
         retourWS = Parcels.unwrap(getIntent().getParcelableExtra(CAR));
 
@@ -44,13 +46,18 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    // Fonction d'ajout dans la bdd de la voiture
     public void clicBouton(View view)   {
+        // Vérification de la présence de la voiture en BDD
         long nbrCar = AppDatabaseHelper.getDatabase(this).carDAO().countCarsParName(retourWS.nom);
+        // si pas présente on l'ajoute
         if (nbrCar == 0){
             CarDTO carDTO = new CarDTO(retourWS.nom, retourWS.image, retourWS.prixjournalierbase, retourWS.categorieco2, retourWS.disponible, retourWS.promotion, retourWS.agemin);
             AppDatabaseHelper.getDatabase(this).carDAO().insert(carDTO);
             Toast.makeText(view.getContext(),"Véhicule ajouté à vos favoris", Toast.LENGTH_SHORT).show();
-        }else{
+        }
+        // sinon on informe l'utilisateur que la voiture est déjà en BDD
+        else{
             Toast.makeText(view.getContext(),"Ce véhicule est déjà dans vos favoris", Toast.LENGTH_SHORT).show();
         }
 

@@ -33,29 +33,37 @@ import java.util.Set;
 import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
-    private List<RetourWS> retourWSs;
+
+    // Vues
     private FrameLayout frameLayoutConteneurDetail = null;
-    CarAdapter carAdapter = null;
     private RecyclerView recyclerView = null;
     private Switch mySwitch;
+
+    // liste des voitures
+    private List<RetourWS> retourWSs;
     private List<RetourWS> favorisCarsListe = null;
+
+    // Adapter
+    CarAdapter carAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // init
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // vues
         frameLayoutConteneurDetail = findViewById(R.id.conteneur_detail);
-
         recyclerView = findViewById(R.id.liste_cars);
+        mySwitch  = findViewById(R.id.favoris_switch);
 
-
+        // layout manager
         recyclerView.setHasFixedSize(true);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        // récupération du contenu WS à la création
         AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams requestParams = new RequestParams();
         client.get("http://s519716619.onlinehome.fr/exchange/madrental/get-vehicules.php", new AsyncHttpResponseHandler() {
 
             @Override
@@ -63,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 String retour = new String(response);
                 Gson gson = new Gson();
                 retourWSs = gson.fromJson(retour, new TypeToken<List<RetourWS>>(){}.getType());
+
+                // Maj du recyclerview
                 updateRecyclerView(retourWSs);
             }
 
@@ -71,9 +81,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mySwitch  = (Switch)findViewById(R.id.favoris_switch);
+        // Si le switch est activé on liste les favoris de la BDD sinon on récupère les infos du WS
         mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Switch activé >> récupération des voitures favorites de la BDD
                 if (isChecked) {
                     List<CarDTO> listeCars = AppDatabaseHelper.getDatabase(buttonView.getContext()).carDAO().getListeCars();
                     favorisCarsListe = new ArrayList<RetourWS>();
@@ -93,7 +104,9 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     }
+                    // Maj du recyclerview
                     updateRecyclerView(favorisCarsListe);
+                // Switch non activé >> récupération des voitures du WS
                 } else {
                     AsyncHttpClient client = new AsyncHttpClient();
                     client.get("http://s519716619.onlinehome.fr/exchange/madrental/get-vehicules.php", new AsyncHttpResponseHandler() {
@@ -119,11 +132,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // quand une voiture du recycler view est cliquée
     public void onClicItem(int position)
     {
+        // récupération de la voiture correspondant à cette position
         CarAdapter carAdapter = new CarAdapter(this, retourWSs);
         RetourWS retourWS = carAdapter.getItemParPosition(position);
 
+        // le conteneur de la partie détail est disponible, on est donc en mode "tablette" :
         if (frameLayoutConteneurDetail != null)
         {
             DetailFragment fragment = new DetailFragment();
@@ -135,21 +151,23 @@ public class MainActivity extends AppCompatActivity {
             bundle.putInt(DetailFragment.CAR_DISPO, retourWS.disponible);
             bundle.putInt(DetailFragment.CAR_PROMO, retourWS.promotion);
             bundle.putInt(DetailFragment.CAR_AGEMIN, retourWS.agemin);
-
+            // envoi des détails de la voiture au fragment
             fragment.setArguments(bundle);
 
-            // le conteneur de la partie détail est disponible, on est donc en mode "tablette" :
             getSupportFragmentManager().beginTransaction().replace(R.id.conteneur_detail, fragment).commit();
         }
+
+        // le conteneur de la partie détail n'est pas disponible, on est donc en mode "smartphone" :
         else
         {
-            // le conteneur de la partie détail n'est pas disponible, on est donc en mode "smartphone" :
+            // envoi des détails de la voiture à la nouvelle activité
             Intent intent = new Intent(this, DetailActivity.class);
             intent.putExtra(DetailActivity.CAR, Parcels.wrap(retourWS));
             startActivity(intent);
         }
     }
 
+    // Maj du recyclerview
     public void updateRecyclerView(List<RetourWS> listeCars){
         List<RetourWS> retourWSList = new ArrayList<RetourWS>();
         carAdapter = new CarAdapter(this, retourWSList);

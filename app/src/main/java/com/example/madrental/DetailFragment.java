@@ -48,6 +48,7 @@ public class DetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            // récupération de tous les détails de la voiture
             carNom = getArguments().getString(CAR_NOM);
             carImage = getArguments().getString(CAR_IMAGE);
             carPrix = getArguments().getInt(CAR_PRIX);
@@ -63,6 +64,7 @@ public class DetailFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
+        // récupération de toutes les vues du fragment
         ImageView imageView = view.findViewById(R.id.image);
         TextView textNom = view.findViewById(R.id.nom);
         TextView textPrix = view.findViewById(R.id.prix);
@@ -71,15 +73,18 @@ public class DetailFragment extends Fragment {
         TextView textPromo = view.findViewById(R.id.promotion);
         TextView textAge = view.findViewById(R.id.agemin);
 
+        // affichage des données de la voiture
         Picasso.with(view.getContext()).load("http://s519716619.onlinehome.fr/exchange/madrental/images/"+carImage).fit().centerCrop().into(imageView);
         textNom.setText(carNom);
         textPrix.setText(carPrix+"€ / jour");
         textCat.setText(carCat);
+        // Text différent selon la disponibilité de la voiture
         if (carDispo == 1){
             textDispo.setText("Véhicule disponible");
         }else{
             textDispo.setText("Ce véhicule n'est pas disponible");
         }
+        // Text différent selon la présence de promotion de la voiture
         if (carPromo > 0){
             textPromo.setText(carPromo+"€");
         }else{
