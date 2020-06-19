@@ -24,4 +24,7 @@ public abstract class CarDAO  {
 
     @Delete
     public abstract void delete(CarDTO... carDTOS);
+
+    @Query("DELETE from rentalCAR WHERE nom = :name")
+    public abstract void deleteCar(String name);
 }

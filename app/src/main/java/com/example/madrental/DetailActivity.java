@@ -5,8 +5,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.madrental.BDD.AppDatabaseHelper;
@@ -17,6 +20,7 @@ import org.parceler.Parcels;
 
 public class DetailActivity extends AppCompatActivity {
     public static String CAR = "CAR";
+
     RetourWS retourWS;
 
 
@@ -44,21 +48,33 @@ public class DetailActivity extends AppCompatActivity {
         bundle.putInt(DetailFragment.CAR_AGEMIN, retourWS.agemin);
         detailFragment.setArguments(bundle);
 
+
+
     }
 
     // Fonction d'ajout dans la bdd de la voiture
     public void clicBouton(View view)   {
+        Button button = findViewById(R.id.favoris);
         // Vérification de la présence de la voiture en BDD
         long nbrCar = AppDatabaseHelper.getDatabase(this).carDAO().countCarsParName(retourWS.nom);
         // si pas présente on l'ajoute
         if (nbrCar == 0){
             CarDTO carDTO = new CarDTO(retourWS.nom, retourWS.image, retourWS.prixjournalierbase, retourWS.categorieco2, retourWS.disponible, retourWS.promotion, retourWS.agemin);
             AppDatabaseHelper.getDatabase(this).carDAO().insert(carDTO);
+
+            // changement du design du bouton pour supprimer des favoris
+            button.setText("Supprimer des favoris");
+            button.setBackgroundColor(Color.parseColor("#B22222"));
             Toast.makeText(view.getContext(),"Véhicule ajouté à vos favoris", Toast.LENGTH_SHORT).show();
         }
-        // sinon on informe l'utilisateur que la voiture est déjà en BDD
+        // sinon on supprime de la BDD
         else{
-            Toast.makeText(view.getContext(),"Ce véhicule est déjà dans vos favoris", Toast.LENGTH_SHORT).show();
+            AppDatabaseHelper.getDatabase(this).carDAO().deleteCar(retourWS.nom);
+
+            // changement du design du bouton pour ajouter au favoris
+            button.setText("Ajouter aux favoris");
+            button.setBackgroundColor(Color.parseColor("#007600"));
+            Toast.makeText(view.getContext(),"Véhicule supprimé de vos favoris", Toast.LENGTH_SHORT).show();
         }
 
     }

@@ -1,6 +1,7 @@
 package com.example.madrental;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 
@@ -10,10 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.madrental.BDD.AppDatabaseHelper;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -28,7 +31,7 @@ public class DetailFragment extends Fragment {
     public static String CAR_DISPO = "CAR_DISPO";
     public static String CAR_PROMO = "CAR_PROMO";
     public static String CAR_AGEMIN = "CAR_AGEMIN";
-
+    private Button button;
     // TODO: Rename and change types of parameters
     private String carNom;
     private String carImage;
@@ -57,6 +60,8 @@ public class DetailFragment extends Fragment {
             carPromo = getArguments().getInt(CAR_PROMO);
             carAgemin = getArguments().getInt(CAR_AGEMIN);
         }
+
+
     }
 
     @Override
@@ -72,6 +77,7 @@ public class DetailFragment extends Fragment {
         TextView textDispo = view.findViewById(R.id.disponibilite);
         TextView textPromo = view.findViewById(R.id.promotion);
         TextView textAge = view.findViewById(R.id.agemin);
+        button = view.findViewById(R.id.favoris);
 
         // affichage des données de la voiture
         Picasso.with(view.getContext()).load("http://s519716619.onlinehome.fr/exchange/madrental/images/"+carImage).fit().centerCrop().into(imageView);
@@ -91,6 +97,16 @@ public class DetailFragment extends Fragment {
             textPromo.setText("Pas de promotion sur ce véhicule");
         }
         textAge.setText("Vous devez avoir "+carAgemin+" ans pour louer ce véhicule");
+
+        // design du bouton a la création
+        long nbrCar = AppDatabaseHelper.getDatabase(this.getContext()).carDAO().countCarsParName(carNom);
+        if (nbrCar == 0){
+            button.setText("Ajouter aux favoris");
+            button.setBackgroundColor(Color.parseColor("#007600"));
+        } else{
+            button.setText("Supprimer des favoris");
+            button.setBackgroundColor(Color.parseColor("#B22222"));
+        }
 
         return view;
     }
